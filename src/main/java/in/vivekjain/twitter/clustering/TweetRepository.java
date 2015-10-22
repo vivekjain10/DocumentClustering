@@ -1,4 +1,4 @@
-package in.vivekjain.twitter.clustering.repository;
+package in.vivekjain.twitter.clustering;
 
 import in.vivekjain.twitter.clustering.Document;
 import redis.clients.jedis.Jedis;
