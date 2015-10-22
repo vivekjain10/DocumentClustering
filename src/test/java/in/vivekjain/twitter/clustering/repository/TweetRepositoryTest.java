@@ -1,5 +1,6 @@
 package in.vivekjain.twitter.clustering.repository;
 
+import in.vivekjain.twitter.clustering.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,26 +20,42 @@ import static org.mockito.Mockito.when;
 public class TweetRepositoryTest {
   @Mock
   private Jedis jedis;
-  private Observable<List<String>> observable;
+  private Observable<List<Document>> observable;
 
   @Before
   public void beforeEach() {
     observable = Observable
         .create(new TweetRepository(jedis))
-        .reduce(new ArrayList<>(), (acc, tweet) -> {
-          acc.add(tweet);
-          return acc;
+        .reduce(new ArrayList<>(), (docs, doc) -> {
+          docs.add(doc);
+          return docs;
         });
   }
 
   @Test
-  public void testName() throws Exception {
-    when(jedis.get("tweet.count")).thenReturn("1");
-    when(jedis.get("tweet.1")).thenReturn("Tweet 1");
+  public void shouldReturnDocuments() throws Exception {
+    when(jedis.get("tweet.count")).thenReturn("2");
+    when(jedis.get("tweet.1")).thenReturn("Document 1");
+    when(jedis.get("tweet.2")).thenReturn("Document 2");
 
-    observable.subscribe(tweets -> {
-      assertThat(tweets.size(), is(1));
-      assertThat(tweets.get(0), is("Tweet 1"));
+    observable.subscribe(documents -> {
+      assertThat(documents.size(), is(2));
+      assertThat(documents.get(0).id, is(1));
+      assertThat(documents.get(0).text.get(), is("Document 1"));
+      assertThat(documents.get(1).id, is(2));
+      assertThat(documents.get(1).text.get(), is("Document 2"));
     });
   }
+
+  @Test
+  public void shouldFilterOutInvalidDocuments() throws Exception {
+    when(jedis.get("tweet.count")).thenReturn("2");
+    when(jedis.get("tweet.1")).thenReturn("Tweet 1");
+
+    observable.subscribe(documents -> {
+      assertThat(documents.size(), is(1));
+      assertThat(documents.get(0).text.get(), is("Tweet 1"));
+    });
+  }
+
 }
