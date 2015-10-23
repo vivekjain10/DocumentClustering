@@ -1,5 +1,6 @@
 package in.vivekjain.twitter.clustering;
 
+import redis.clients.jedis.Jedis;
 import rx.Observable;
 
 import java.util.Date;
@@ -9,10 +10,11 @@ public class Main {
     log("Starting...");
 
     HadoopConfig config = new HadoopConfig();
+    Jedis jedis = new Jedis();
 
     DocumentSequence documentSequence = new DocumentSequence(config);
 
-    Observable.create(new DocumentRepository())
+    Observable.create(new DocumentRepository(jedis))
         .subscribe(documentSequence::write, Throwable::printStackTrace);
 
     documentSequence.close();
@@ -20,7 +22,7 @@ public class Main {
     Cluster cluster = new Cluster(config);
     cluster.generate();
 
-    Output output = new Output(config);
+    Output output = new Output(config, jedis);
     output.print();
 
     log("Done...");

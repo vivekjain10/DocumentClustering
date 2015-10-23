@@ -12,23 +12,19 @@ import static java.lang.Integer.parseInt;
 public class DocumentRepository implements Observable.OnSubscribe<Document> {
   private Jedis jedis;
 
-  public DocumentRepository() {
-    this(new Jedis());
-  }
-
   public DocumentRepository(Jedis jedis) {
     this.jedis = jedis;
   }
 
   public void call(Subscriber<? super Document> subscriber) {
-    IntStream.rangeClosed(1, 10)
+    IntStream.rangeClosed(1, totalDocuments())
         .mapToObj(value -> new Document(value, jedis.get("documents." + value)))
         .filter(document -> document.text.isPresent())
         .forEach(subscriber::onNext);
     subscriber.onCompleted();
   }
 
-  private int totalTweets() {
+  private int totalDocuments() {
     return parseInt(jedis.get("documents.count"));
   }
 }
