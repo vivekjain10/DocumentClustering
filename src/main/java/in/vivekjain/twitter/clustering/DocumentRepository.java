@@ -21,7 +21,7 @@ public class DocumentRepository implements Observable.OnSubscribe<Document> {
   }
 
   public void call(Subscriber<? super Document> subscriber) {
-    IntStream.rangeClosed(1, totalTweets())
+    IntStream.rangeClosed(1, 10)
         .mapToObj(value -> new Document(value, jedis.get("documents." + value)))
         .filter(document -> document.text.isPresent())
         .forEach(subscriber::onNext);
