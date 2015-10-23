@@ -12,7 +12,7 @@ public class Main {
 
     DocumentSequence documentSequence = new DocumentSequence(config);
 
-    Observable.create(new TweetRepository())
+    Observable.create(new DocumentRepository())
         .subscribe(documentSequence::write, Throwable::printStackTrace);
 
     documentSequence.close();

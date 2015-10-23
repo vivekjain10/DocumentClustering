@@ -1,7 +1,7 @@
 package in.vivekjain.twitter.clustering.repository;
 
 import in.vivekjain.twitter.clustering.Document;
-import in.vivekjain.twitter.clustering.TweetRepository;
+import in.vivekjain.twitter.clustering.DocumentRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TweetRepositoryTest {
+public class DocumentRepositoryTest {
   @Mock
   private Jedis jedis;
   private Observable<List<Document>> observable;
@@ -26,7 +26,7 @@ public class TweetRepositoryTest {
   @Before
   public void beforeEach() {
     observable = Observable
-        .create(new TweetRepository(jedis))
+        .create(new DocumentRepository(jedis))
         .reduce(new ArrayList<>(), (docs, doc) -> {
           docs.add(doc);
           return docs;
@@ -35,9 +35,9 @@ public class TweetRepositoryTest {
 
   @Test
   public void shouldReturnDocuments() throws Exception {
-    when(jedis.get("tweet.count")).thenReturn("2");
-    when(jedis.get("tweet.1")).thenReturn("Document 1");
-    when(jedis.get("tweet.2")).thenReturn("Document 2");
+    when(jedis.get("documents.count")).thenReturn("2");
+    when(jedis.get("documents.1")).thenReturn("Document 1");
+    when(jedis.get("documents.2")).thenReturn("Document 2");
 
     observable.subscribe(documents -> {
       assertThat(documents.size(), is(2));
@@ -50,12 +50,12 @@ public class TweetRepositoryTest {
 
   @Test
   public void shouldFilterOutInvalidDocuments() throws Exception {
-    when(jedis.get("tweet.count")).thenReturn("2");
-    when(jedis.get("tweet.1")).thenReturn("Tweet 1");
+    when(jedis.get("documents.count")).thenReturn("2");
+    when(jedis.get("documents.1")).thenReturn("Document 1");
 
     observable.subscribe(documents -> {
       assertThat(documents.size(), is(1));
-      assertThat(documents.get(0).text.get(), is("Tweet 1"));
+      assertThat(documents.get(0).text.get(), is("Document 1"));
     });
   }
 
