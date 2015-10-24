@@ -1,4 +1,4 @@
-package in.vivekjain.twitter.clustering;
+package in.vivekjain.document.clustering;
 
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
-package in.vivekjain.twitter.clustering.repository;
+package in.vivekjain.document.clustering.repository;
 
-import in.vivekjain.twitter.clustering.Document;
-import in.vivekjain.twitter.clustering.DocumentRepository;
+import in.vivekjain.document.clustering.Document;
+import in.vivekjain.document.clustering.DocumentRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

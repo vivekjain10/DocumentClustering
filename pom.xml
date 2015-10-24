@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>in.vivekjain.twitter.clustering</groupId>
-    <artifactId>tweet-clustering</artifactId>
+    <groupId>in.vivekjain.document.clustering</groupId>
+    <artifactId>document-clustering</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>

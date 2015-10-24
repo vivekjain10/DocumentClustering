@@ -1,4 +1,4 @@
-package in.vivekjain.twitter.clustering;
+package in.vivekjain.document.clustering;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
