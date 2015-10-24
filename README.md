@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/vivekjain10/DocumentClustering.svg?branch=master)](https://travis-ci.org/vivekjain10/DocumentClustering)
+
 Document Clustering
 -------------------
 
