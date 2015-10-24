@@ -25,6 +25,14 @@ public class DocumentRepository implements Observable.OnSubscribe<Document> {
   }
 
   private int totalDocuments() {
-    return parseInt(jedis.get("documents.count"));
+    String documentsToClusterFromEnv = System.getenv("DOCUMENTS_TO_CLUSTER");
+    int result;
+    if (documentsToClusterFromEnv != null) {
+      result = parseInt(documentsToClusterFromEnv);
+    } else {
+      result = parseInt(jedis.get("documents.count"));
+    }
+    System.out.println("Clustering " + result + " documents");
+    return result;
   }
 }
